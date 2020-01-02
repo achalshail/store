@@ -1,0 +1,428 @@
+
+{% extends 'layout.html' %}
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Store</h4>
+        </div>
+        <div class="modal-body">
+          <p id="error"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<aside id="colorlib-hero" class="breadcrumbs">
+    <div class="flexslider">
+        <ul class="slides">
+            <li style="background-image: url(/static/images/cover-img-1.jpg);">
+                <div class="overlay"></div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12 slider-text">
+                            <div class="slider-text-inner text-center">
+                                <h1>Checkout</h1>
+                                <h2 class="bread"><span><a href="{% url 'home' %}">Home</a></span> <span><a
+                                            href="{% url 'cart' %}">Shopping Cart</a></span> <span>Checkout</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</aside>
+
+<div class="colorlib-shop">
+    <div class="container">
+        <div class="row row-pb-md">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="process-wrap">
+                    <div class="process text-center active">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                    </div>
+                    <div class="process text-center active">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                    </div>
+                    <div class="process text-center">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--new start-->
+        <div class="row">
+            <div class="col-md-7">
+                <form id="billing_form" method="post" class="colorlib-form" action="{% url 'order_complete' %}">
+                    {% csrf_token %}
+                    <h2>Billing Details</h2>
+                    <div class="row">
+                        <!-- <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="country">Select Country</label>
+                                <div class="form-field">
+                                    <i class="icon icon-arrow-down3"></i>
+                                    {{form.country}}
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label for="first_name">First Name</label>
+                                {{form.first_name}}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="last_name">Last Name</label>
+                                {{form.last_name}}
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="company_name">Company Name</label>
+                                {{form.company_name}}
+                            </div>
+                        </div> -->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="first_address">Address</label>
+                                {{form.first_address}}
+                            </div>
+                            <div class="form-group">
+                                {{form.second_address}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="town">Town/City</label>
+                                {{form.town}}
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <div class="col-md-6">
+                                <label for="state">State/Province</label>
+                                {{form.state}}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="zip_code">Zip/Postal Code</label>
+                                {{form.zip_code}}
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label for="email_address">E-mail Address</label>
+                                {{form.email_address}}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone_number">Phone Number</label>
+                                {{form.phone_number}}
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                  <label><input type="radio" name="optradio">Create an Account? </label>
+                                  <label><input type="radio" name="optradio"> Ship to different address</label>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <h2 style="margin-bottom:10px;margin-top:15px">Payment Method</h2>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                        {{form.payment_option}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    <label>{{form.terms_agreed}}I have read and accepted the terms and
+                                        conditions</label>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+            <div class="row row-pb-md">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="product-name">
+                        <div class="one-forth text-center">
+                            <span>Product Details</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Price</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Quantity</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Total</span>
+                        </div>
+                        <div class="one-eight text-center">
+                            <span>Remove</span>
+                        </div>
+                    </div>
+                    {% for cart in carts %}
+                    <div class="product-cart">
+                        <div class="one-forth">
+                            <div class="product-img" style="background-image: url('/{{cart.product.pimage}}');">
+                            </div>
+                            <div class="display-tc">
+                                <a href="/product_detail/{{cart.product.id}}"><h3>{{cart.product.pname}}</h3></a>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <span class="price">{{cart.product.pprice}}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <span>{{cart.quantity}}</span>
+                            </div>
+                        </div>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <span class="price">{{cart.total}}</span>
+                            </div>
+                        </div>
+
+                        <script>
+                            function checkTotalItems(itemsInCart) {
+                                
+                                if(itemsInCart < 2) {
+                                    $("#error").html("At least one item must be included while placing order.");
+                                    $('#myModal').modal("show");
+                                    return false;
+                                }
+                                return true;
+                            }
+                        </script>
+                        <div class="one-eight text-center">
+                            <div class="display-tc">
+                                <a onclick="return checkTotalItems('{{carts.count}}')" href="/cart/delete_cart/{{cart.id}}/0" class="closed"></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+            <div class="col-md-5">
+                <div class="cart-detail">
+                    <h2>Cart Total</h2>
+                    <ul>
+                        <li>
+                            <span>Subtotal</span> <span>{{price_details.sub_total}}</span>
+                            <ul>
+                                {% for cart in carts %}
+                                    <li><span>{{cart.quantity}} x {{cart.product.pname}}</span> <span>{{cart.total}}</span></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li><span>Shipping</span> <span>{{price_details.delivery_charge}}</span></li>
+                        <li><span>Discount</span> <span>{{price_details.discount}}</span></li>
+                        <li><span>Order Total</span> <span>{{price_details.total}}</span></li>
+                    </ul>
+                </div>
+
+                <!-- Modal -->
+<div class="modal fade" id="myModal_Order" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Store</h4>
+        </div>
+        <div class="modal-body">
+          <p id="msg"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="yesClicked()" class="btn btn-primary" data-dismiss="modal">Yes</button>
+          <button type="button" onclick="noClicked()" class="btn btn-primary" data-dismiss="modal">No</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+                <script type="text/javascript">
+
+                    function yesClicked() {
+                        $('form#billing_form').submit();
+                    }
+
+                    function noClicked() {
+                        
+                    }
+
+                    function submitOrder() {
+                        var first_name = document.getElementById("id_first_name").value
+                        var last_name = document.getElementById("id_last_name").value
+                        var first_address = document.getElementById("id_first_address").value
+                        var second_address = document.getElementById("id_second_address").value
+                        var town = document.getElementById("id_town").value
+                        var email_address = document.getElementById("id_email_address").value
+                        var phone_number = document.getElementById("id_phone_number").value
+                        var re = /\S+@\S+\.\S+/;
+                        if(first_name !== '' && last_name !== '' && first_address !==''
+                            && second_address !== '' && town !== '' && email_address !== '' && re.test(email_address) && phone_number !== '') {
+                                $("#msg").html("Are you sure you want to place an order?");
+                                $('#myModal_Order').modal("show");
+                                return false;
+                            }
+                        // return true;
+                    }
+                </script>
+                
+                <div class="row">
+                        <div class="col-md-12">
+                                <button onclick="return submitOrder();" form="billing_form" type="submit" class="btn btn-primary">Place an order</button>
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+        <!--new end-->
+    </div>
+</div>
+
+<div class="colorlib-shop">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center colorlib-heading">
+                <h2><span>Recommended Products</span></h2>
+                <p>We love to tell our successful far far away, behind the word mountains, far from the countries
+                    Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <div class="product-entry">
+                    <div class="product-img" style="background-image: url(/static/images/item-5.jpg);">
+                        <p class="tag"><span class="new">New</span></p>
+                        <div class="cart">
+                            <p>
+                                <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                <span><a href=""><i class="icon-eye"></i></a></span>
+                                <span><a href="#"><i class="icon-heart3"></i></a></span>
+                                <span><a href=""><i class="icon-bar-chart"></i></a></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="desc">
+                        <h3><a href="">Floral Dress</a></h3>
+                        <p class="price"><span>$300.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="product-entry">
+                    <div class="product-img" style="background-image: url(/static/images/item-6.jpg);">
+                        <p class="tag"><span class="new">New</span></p>
+                        <div class="cart">
+                            <p>
+                                <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                <span><a href=""><i class="icon-eye"></i></a></span>
+                                <span><a href="#"><i class="icon-heart3"></i></a></span>
+                                <span><a href=""><i class="icon-bar-chart"></i></a></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="desc">
+                        <h3><a href="">Floral Dress</a></h3>
+                        <p class="price"><span>$300.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="product-entry">
+                    <div class="product-img" style="background-image: url(/static/images/item-7.jpg);">
+                        <p class="tag"><span class="new">New</span></p>
+                        <div class="cart">
+                            <p>
+                                <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                <span><a href=""><i class="icon-eye"></i></a></span>
+                                <span><a href="#"><i class="icon-heart3"></i></a></span>
+                                <span><a href=""><i class="icon-bar-chart"></i></a></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="desc">
+                        <h3><a href="">Floral Dress</a></h3>
+                        <p class="price"><span>$300.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="product-entry">
+                    <div class="product-img" style="background-image: url(/static/images/item-8.jpg);">
+                        <p class="tag"><span class="new">New</span></p>
+                        <div class="cart">
+                            <p>
+                                <span class="addtocart"><a href="#"><i class="icon-shopping-cart"></i></a></span>
+                                <span><a href=""><i class="icon-eye"></i></a></span>
+                                <span><a href="#"><i class="icon-heart3"></i></a></span>
+                                <span><a href=""><i class="icon-bar-chart"></i></a></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="desc">
+                        <h3><a href="">Floral Dress</a></h3>
+                        <p class="price"><span>$300.00</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="colorlib-subscribe">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-6 text-center">
+                    <h2><i class="icon-paperplane"></i>Sign Up for a Newsletter</h2>
+                </div>
+                <div class="col-md-6">
+                    <form class="form-inline qbstp-header-subscribe">
+                        <div class="row">
+                            <div class="col-md-12 col-md-offset-0">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="email" placeholder="Enter your email">
+                                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
